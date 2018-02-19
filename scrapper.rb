@@ -382,7 +382,7 @@ def parse_hash(input_hash)
 	hash[:bonus] = input_hash[:token_financial_information]["Bonus"].nil? ? "" : input_hash[:token_financial_information]["Bonus"]
 	(1..22).each do |member_number|
 		hash["name_#{member_number}".to_sym] = input_hash[:team][member_number-1].nil? ? "" : input_hash[:team][member_number-1][:name]
-		hash["designation_#{member_number}".to_sym] = input_hash[:team][member_number-1].nil? ? "" : input_hash[:team][member_number-1][:name]
+		hash["designation_#{member_number}".to_sym] = input_hash[:team][member_number-1].nil? ? "" : input_hash[:team][member_number-1][:designation]
 		linkedin_link = []
 		linkedin_link = input_hash[:team][member_number-1][:social_links].select {|u| u.include?('linkedin')} unless input_hash[:team][member_number-1].nil?
 		hash["linkedin_#{member_number}".to_sym] = linkedin_link.empty? || linkedin_link.nil? ? "" : linkedin_link.first
