@@ -125,6 +125,9 @@ def get_token_information(browser)
 		browser.div(class: TOKEN_INFORMATION_CLASSES).divs(class: TOKEN_INFORMATION_ROW_CLASSES).each do|div|
 			hash[div.divs[0].text] =  div.divs[1].text
 		end
+		if browser.div(class: TOKEN_INFORMATION_CLASSES).small.exists?
+			hash[:date_range] = browser.div(class: TOKEN_INFORMATION_CLASSES).smalls.first.text
+		end
 	else
 		raise_not_found(browser, "Token information section")
 	end
@@ -294,7 +297,7 @@ end
 def headers_for_master
 	#anything added here has to be added as a key in the parsed hash
 	%w{name one_liner description industry sale_raised 
-	symbol price_in_preico price_in_ico country preico_start_date
+	symbol price_in_preico price_in_ico country date_range preico_start_date
 	preico_end_date ico_start_date ico_end_date social_link_slack social_link_twitter 
 	social_link_facebook social_link_vk social_link_github social_link_reddit social_link_bitcointalk 
 	social_link_medium social_link_telegram social_link_youtube social_link_website about platform sale_supply
@@ -326,6 +329,7 @@ def parse_hash(input_hash)
 	hash[:price_in_preico] = input_hash[:token_information]["Price in preICO"].nil? ? "" : input_hash[:token_information]["Price in preICO"] 
 	hash[:price_in_ico] = input_hash[:token_information]["Price in ICO"].nil? ? "" : input_hash[:token_information]["Price in ICO"]
 	hash[:country] = input_hash[:token_information]["Country"].nil? ? "" : input_hash[:token_information]["Country"]
+	hash[:date_range] = input_hash[:token_information][:date_range].nil? ? "" : input_hash[:token_information][:date_range]
 	hash[:preico_start_date] = input_hash[:token_information]["preICO start"].nil? ? "" : input_hash[:token_information]["preICO start"]
 	hash[:preico_end_date] = input_hash[:token_information]["preICO end"].nil? ? "" : input_hash[:token_information]["preICO end"]
 	hash[:ico_start_date] = input_hash[:token_information]["ICO start"].nil? ? "" : input_hash[:token_information]["ICO start"]
